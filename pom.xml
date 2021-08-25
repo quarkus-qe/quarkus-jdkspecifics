@@ -104,7 +104,10 @@
                 <artifactId>quarkus-maven-plugin</artifactId>
                 <version>${quarkus-plugin.version}</version>
                 <configuration>
-                    <compilerArgs>--enable-preview</compilerArgs>
+                    <compilerArgs>
+                        <arg>--enable-preview</arg>
+                    </compilerArgs>
+                    <jvmArgs>--enable-preview</jvmArgs>
                     <source>${maven.compiler.release}</source>
                     <target>${maven.compiler.release}</target>
                 </configuration>
@@ -166,6 +169,7 @@
                 </executions>
                 <configuration>
                     <trimStackTrace>false</trimStackTrace>
+                    <argLine>--enable-preview</argLine>
                 </configuration>
             </plugin>
             <plugin>
@@ -191,25 +195,25 @@
                     <lineEnding>LF</lineEnding>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>net.revelc.code</groupId>
-                <artifactId>impsort-maven-plugin</artifactId>
-                <version>${impsort-maven-plugin.version}</version>
-                <configuration>
-                    <!-- store outside of target to speed up formatting when mvn clean is used -->
-                    <cachedir>.cache</cachedir>
-                    <groups>java.,javax.,org.,com.,io.</groups>
-                    <staticGroups>*</staticGroups>
-                    <removeUnused>true</removeUnused>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>${src.sort.goal}</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--            <plugin>-->
+            <!--                <groupId>net.revelc.code</groupId>-->
+            <!--                <artifactId>impsort-maven-plugin</artifactId>-->
+            <!--                <version>${impsort-maven-plugin.version}</version>-->
+            <!--                <configuration>-->
+            <!--                    &lt;!&ndash; store outside of target to speed up formatting when mvn clean is used &ndash;&gt;-->
+            <!--                    <cachedir>.cache</cachedir>-->
+            <!--                    <groups>java.,javax.,org.,com.,io.</groups>-->
+            <!--                    <staticGroups>*</staticGroups>-->
+            <!--                    <removeUnused>true</removeUnused>-->
+            <!--                </configuration>-->
+            <!--                <executions>-->
+            <!--                    <execution>-->
+            <!--                        <goals>-->
+            <!--                            <goal>${src.sort.goal}</goal>-->
+            <!--                        </goals>-->
+            <!--                    </execution>-->
+            <!--                </executions>-->
+            <!--            </plugin>-->
             <plugin>
                 <groupId>au.com.acegi</groupId>
                 <artifactId>xml-format-maven-plugin</artifactId>

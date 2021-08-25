@@ -19,7 +19,7 @@ import io.quarkus.ts.jdk17.model.Fruit;
 import io.restassured.response.ValidatableResponse;
 
 @QuarkusScenario
-public class FruitsResourceIT {
+public class DevModeFruitsResourceIT {
 
     @DevModeQuarkusApplication
     static final RestService app = new RestService();
