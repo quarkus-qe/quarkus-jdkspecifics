@@ -9,7 +9,7 @@
     </parent>
     <artifactId>jaxrs-panache</artifactId>
     <packaging>jar</packaging>
-    <name>Quarkus JDK17 TS: MicroProfile</name>
+    <name>Quarkus JDK17 TS: jaxrs-panache</name>
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>
