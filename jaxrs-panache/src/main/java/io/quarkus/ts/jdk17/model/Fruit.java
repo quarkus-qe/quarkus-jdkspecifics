@@ -9,12 +9,11 @@ import javax.validation.constraints.Size;
 import javax.ws.rs.NotFoundException;
 
 import io.quarkus.ts.jdk17.storage.FruitEntity;
-import io.vertx.core.json.JsonObject;
 
 public record Fruit(
         Long id,
         @NotBlank @Size(max = 20) String name,
-        @NotBlank @Size(max = 20) String description) {
+        @NotBlank @Size(max = 20) String description) implements FruitMarshaller {
 
     private final static Long DEFAULT_ID = -1L;
 
@@ -31,18 +30,18 @@ public record Fruit(
     public static List<Fruit> getAll() {
         return FruitEntity.<FruitEntity> find("#Fruits.findAllCustom")
                 .stream()
-                .map(Fruit::fromEntity)
+                .map(FruitMarshaller::fromEntity)
                 .collect(Collectors.toList());
     }
 
     public static Fruit getLongestDescription() {
-        return fromEntity(FruitEntity.getLongestDescription());
+        return FruitMarshaller.fromEntity(FruitEntity.getLongestDescription());
     }
 
     public Fruit save() {
-        var fruitEntity = toEntity(this);
+        var fruitEntity = FruitMarshaller.toEntity(this);
         FruitEntity.persist(fruitEntity);
-        return fromEntity(fruitEntity);
+        return FruitMarshaller.fromEntity(fruitEntity);
     }
 
     public Fruit update(Long id) {
@@ -55,29 +54,11 @@ public record Fruit(
         fruit.description = this.description;
         FruitEntity.findById(id, LockModeType.PESSIMISTIC_WRITE).persist();
 
-        return fromEntity(fruit);
+        return FruitMarshaller.fromEntity(fruit);
     }
 
     public static boolean deleteById(Long id) {
         return FruitEntity.deleteById(id);
     }
 
-    private static Fruit fromEntity(FruitEntity entity) {
-        return new Fruit(entity.id, entity.name, entity.description);
-    }
-
-    private static FruitEntity toEntity(Fruit fruit) {
-        var entity = new FruitEntity();
-        entity.name = fruit.name();
-        entity.description = fruit.description();
-        return entity;
-    }
-
-    public String toJsonEncoded() {
-        return toJson().encode();
-    }
-
-    public JsonObject toJson() {
-        return JsonObject.mapFrom(this);
-    }
 }

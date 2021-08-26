@@ -26,3 +26,4 @@ These are the selected ones:
 ### Jaxrs-panache
 * [Records](https://openjdk.java.net/jeps/395)
 * [Text Blocks](https://openjdk.java.net/jeps/378)
+* [Sealed Interfaces](https://openjdk.java.net/jeps/409)
