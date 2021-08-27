@@ -12,16 +12,23 @@ jobs:
       matrix:
         os: [ ubuntu-latest ]
     steps:
-      - uses: sdkman/sdkman-action@master
-        id: sdkman
+      - uses: actions/checkout@v2
+      - name: Cache JDK
+        id: cache-jdk17
+        uses: actions/cache@v2
         with:
-          candidate: java
-          version: 17.ea.3.pma-open
-      - uses: actions/setup-java@v1
-        id: setup-java
+          path: ${{ runner.temp }}
+          key: ${{ runner.os }}-jdk17-${{ hashFiles('java_package.tar.gz') }}
+          restore-keys: ${{ runner.os }}-jdk17-
+      - run: |
+          download_url="https://download.java.net/java/GA/jdk17/0d483333a00540d886896bac774ff48b/35/GPL/openjdk-17_linux-x64_bin.tar.gz"
+          wget -O $RUNNER_TEMP/java_package.tar.gz $download_url
+      - uses: joschi/setup-jdk@v2
         with:
-          java-version: 17.0.0
-          jdkFile: ${{ steps.sdkman.outputs.file }}
+          distribution: 'jdkfile'
+          java-version: '17'
+          architecture: x64
+          jdkFile: ${{ runner.temp }}/java_package.tar.gz
       - run: java --version
       - name: Build Quarkus main
         run: |
@@ -41,25 +48,23 @@ jobs:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest ]
-    needs: [ build-dependencies, linux-validate-format ]
+    needs: [ build-dependencies ]
     steps:
-      - uses: sdkman/sdkman-action@master
-        id: sdkman
+      - uses: actions/checkout@v2
+      - name: Cache JDK
+        id: cache-jdk17
+        uses: actions/cache@v2
         with:
-          candidate: java
-          version: 17.ea.3.pma-open
-      - uses: actions/setup-java@v1
-        id: setup-java
+          path: ${{ runner.temp }}
+          key: ${{ runner.os }}-jdk17-${{ hashFiles('java_package.tar.gz') }}
+          restore-keys: ${{ runner.os }}-jdk17-
+      - uses: joschi/setup-jdk@v2
         with:
-          java-version: 17.0.0
-          jdkFile: ${{ steps.sdkman.outputs.file }}
-      - uses: actions/checkout@v1
-      - uses: actions/cache@v1
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+          distribution: 'jdkfile'
+          java-version: '17'
+          architecture: x64
+          jdkFile: ${{ runner.temp }}/java_package.tar.gz
+      - run: java --version
       - name: Reclaim Disk Space
         run: .github/ci-prerequisites.sh
       - name: Download Maven Repo
