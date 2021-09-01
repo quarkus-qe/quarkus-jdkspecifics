@@ -1,4 +1,4 @@
-# Quarkus JDK17 Test Suite
+# Quarkus Jdk specifics Test Suite
 
 The goal of this TS is to cover the most interesting [JEPs](http://openjdk.java.net/jeps/1)  implemented since JDK 11
 
