@@ -1,5 +1,7 @@
 # Quarkus Jdk specifics Test Suite
 
+[![Daily Build](https://github.com/quarkus-qe/quarkus-jdkspecifics/actions/workflows/daily.yaml/badge.svg)](https://github.com/quarkus-qe/quarkus-jdkspecifics/actions/workflows/daily.yaml)
+
 The goal of this TS is to cover the most interesting [JEPs](http://openjdk.java.net/jeps/1)  implemented since JDK 11
 
 These are the selected ones:
