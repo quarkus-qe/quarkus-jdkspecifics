@@ -42,7 +42,7 @@ jobs:
     name: PR - Linux - JVM build - Latest Version
     runs-on: ubuntu-latest
     timeout-minutes: 60
-    needs: linux-validate-format
+    needs: build-dependencies
     env:
       MODULES_ARG: ${{ needs.detect-test-suite-modules.outputs.MODULES_ARG }}
     strategy:
