@@ -20,7 +20,7 @@
         <quarkus.platform.version>999-SNAPSHOT</quarkus.platform.version>
         <quarkus-plugin.version>${quarkus.platform.version}</quarkus-plugin.version>
         <quarkus.qe.framework.version>0.0.15</quarkus.qe.framework.version>
-        <formatter-maven-plugin.version>2.16.0</formatter-maven-plugin.version>
+        <formatter-maven-plugin.version>2.17.0</formatter-maven-plugin.version>
         <impsort-maven-plugin.version>1.6.2</impsort-maven-plugin.version>
         <xml-format-maven-plugin.version>3.2.0</xml-format-maven-plugin.version>
         <checkstyle.version>8.45.1</checkstyle.version>
