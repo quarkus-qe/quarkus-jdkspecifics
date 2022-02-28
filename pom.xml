@@ -23,7 +23,7 @@
         <formatter-maven-plugin.version>2.17.1</formatter-maven-plugin.version>
         <impsort-maven-plugin.version>1.6.2</impsort-maven-plugin.version>
         <xml-format-maven-plugin.version>3.2.0</xml-format-maven-plugin.version>
-        <checkstyle.version>9.3</checkstyle.version>
+        <checkstyle.version>10.0</checkstyle.version>
         <profile.id>jvm</profile.id>
         <!-- Default values for format -->
         <src.format.goal>format</src.format.goal>
