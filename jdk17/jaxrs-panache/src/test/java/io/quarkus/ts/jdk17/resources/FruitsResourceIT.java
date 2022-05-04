@@ -12,18 +12,27 @@ import javax.ws.rs.core.MediaType;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.Test;
 
+import io.quarkus.test.bootstrap.PostgresqlService;
 import io.quarkus.test.bootstrap.RestService;
 import io.quarkus.test.scenarios.QuarkusScenario;
-import io.quarkus.test.services.DevModeQuarkusApplication;
+import io.quarkus.test.services.Container;
+import io.quarkus.test.services.QuarkusApplication;
 import io.quarkus.ts.jdk17.model.Fruit;
 import io.restassured.response.ValidatableResponse;
 import io.vertx.core.json.JsonObject;
 
 @QuarkusScenario
-public class DevModeFruitsResourceIT {
+public class FruitsResourceIT {
 
-    @DevModeQuarkusApplication
-    static final RestService app = new RestService();
+    @Container(image = "${postgresql.13.image}", port = 5432, expectedLog = "listening on IPv4 address")
+    static PostgresqlService postgres = new PostgresqlService();
+
+    @QuarkusApplication
+    static final RestService app = new RestService()
+            .withProperty("quarkus.datasource.username", postgres.getUser())
+            .withProperty("quarkus.datasource.password", postgres.getPassword())
+            .withProperty("quarkus.datasource.jdbc.url", postgres::getJdbcUrl)
+            .withProperty("quarkus.datasource.reactive.url", postgres::getReactiveUrl);
 
     @Test
     public void listFruitTest() {
