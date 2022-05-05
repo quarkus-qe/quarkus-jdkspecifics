@@ -116,10 +116,10 @@ jobs:
         run: |
             mvn -fae -V -B -s .github/mvn-settings.xml -P ${{ matrix.profiles }} -fae clean verify -Dnative \
             -Dquarkus.native.builder-image=quay.io/quarkus/${{ matrix.image }}
-            - name: Zip Artifacts
-              if: failure()
-              run: |
-                zip -R artifacts-native${{ matrix.java }}.zip '*-reports/*'
+      - name: Zip Artifacts
+        if: failure()
+        run: |
+          zip -R artifacts-native${{ matrix.java }}.zip '*-reports/*'
       - name: Archive artifacts
         if: failure()
         uses: actions/upload-artifact@v1
