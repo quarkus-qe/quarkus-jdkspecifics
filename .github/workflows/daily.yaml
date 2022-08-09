@@ -91,7 +91,7 @@ jobs:
     strategy:
       matrix:
         java: [ 17 ]
-        image: [ "ubi-quarkus-mandrel:21.3-java17" ]
+        image: [ "ubi-quarkus-mandrel:22.2-java17" ]
         profiles: [ "JDK17"]
     steps:
       - uses: actions/checkout@v2
