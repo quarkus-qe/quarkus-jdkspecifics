@@ -1,9 +1,9 @@
 package io.quarkus.ts.jdk17.storage;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.NamedQuery;
-import javax.persistence.QueryHint;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.NamedQuery;
+import jakarta.persistence.QueryHint;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 

@@ -3,10 +3,10 @@ package io.quarkus.ts.jdk17.model;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.LockModeType;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import javax.ws.rs.NotFoundException;
+import jakarta.persistence.LockModeType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import jakarta.ws.rs.NotFoundException;
 
 import io.quarkus.ts.jdk17.storage.FruitEntity;
 
