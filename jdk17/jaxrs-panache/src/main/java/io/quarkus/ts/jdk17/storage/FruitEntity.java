@@ -22,7 +22,9 @@ public class FruitEntity extends PanacheEntity {
         return FruitEntity.getEntityManager().createQuery("""
                       SELECT f
                       FROM fruit f
-                      WHERE char_length(f.description) = (SELECT max(char_length(description)) FROM fruit )
-                """, FruitEntity.class).getSingleResult();
+                      ORDER BY char_length(f.description) DESC
+                """, FruitEntity.class)
+                .setMaxResults(1)
+                .getSingleResult();
     }
 }
