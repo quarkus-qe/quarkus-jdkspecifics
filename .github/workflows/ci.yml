@@ -10,8 +10,8 @@ jobs:
       matrix:
         java: [ 11 ]
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/cache@v1
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -19,12 +19,11 @@ jobs:
             ${{ runner.os }}-maven-
       - name: Reclaim Disk Space
         run: .github/ci-prerequisites.sh
-      - name: Install JDK {{ matrix.java }}
-        uses: joschi/setup-jdk@e87a7cec853d2dd7066adf837fe12bf0f3d45e52
+      - name: Install JDK ${{ matrix.java }}
+        uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
+          distribution: temurin
           java-version: ${{ matrix.java }}
-          check-latest: true
       - name: Build Quarkus main
         run: |
           git clone https://github.com/quarkusio/quarkus.git && cd quarkus && ./mvnw -B -s .github/mvn-settings.xml clean install -Dquickly -Prelocations
@@ -44,19 +43,18 @@ jobs:
       matrix:
         java: [ 17 ]
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/cache@v1
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - name: Install JDK {{ matrix.java }}
-        uses: joschi/setup-jdk@e87a7cec853d2dd7066adf837fe12bf0f3d45e52
+      - name: Install JDK ${{ matrix.java }}
+        uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
+          distribution: temurin
           java-version: ${{ matrix.java }}
-          check-latest: true
       - name: Download Maven Repo
         uses: actions/download-artifact@v1
         with:
@@ -79,8 +77,8 @@ jobs:
       matrix:
         java: [ 17 ]
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/cache@v1
+      - uses: actions/checkout@v3
+      - uses: actions/cache@v3
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -88,13 +86,11 @@ jobs:
             ${{ runner.os }}-maven-
       - name: Reclaim Disk Space
         run: .github/ci-prerequisites.sh
-      - name: Install JDK {{ matrix.java }}
-        # Uses sha for added security since tags can be updated
-        uses: joschi/setup-jdk@e87a7cec853d2dd7066adf837fe12bf0f3d45e52
+      - name: Install JDK ${{ matrix.java }}
+        uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
+          distribution: temurin
           java-version: ${{ matrix.java }}
-          check-latest: true
       - name: Download Maven Repo
         uses: actions/download-artifact@v1
         with:
