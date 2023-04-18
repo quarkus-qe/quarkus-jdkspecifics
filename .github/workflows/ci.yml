@@ -1,6 +1,9 @@
-name: "Pull Request CI"
+name: "JDK specifics CI"
 on:
-  - pull_request
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 20 * * *'
 jobs:
   build-dependencies:
     name: Build Dependencies
@@ -31,59 +34,63 @@ jobs:
         shell: bash
         run: tar -I 'pigz -9' -cf maven-repo.tgz -C ~ .m2/repository
       - name: Persist Maven Repo
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3
         with:
           name: maven-repo
           path: maven-repo.tgz
-  linux-validate-format:
-    name: Linux - Validate format
+          retention-days: 1
+  linux-build-jvm-latest:
+    name: Linux - JVM build - Latest Version
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     needs: build-dependencies
     strategy:
       matrix:
         java: [ 17 ]
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+      - name: Reclaim Disk Space
+        run: .github/ci-prerequisites.sh
       - name: Install JDK ${{ matrix.java }}
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: ${{ matrix.java }}
+          check-latest: true
+          cache: 'maven'
       - name: Download Maven Repo
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: maven-repo
           path: .
       - name: Extract Maven Repo
         shell: bash
         run: tar -xzf maven-repo.tgz -C ~
-      - name: Build with Maven
+      - name: Validate format
         run: |
-          mvn -V -B -s .github/mvn-settings.xml verify -Dall-modules -Dvalidate-format -DskipTests -DskipITs
-  linux-build-jvm-latest:
-    name: PR - Linux - JVM build - Latest Version
+          mvn -V -B -s .github/mvn-settings.xml verify -Dvalidate-format -DskipTests -DskipITs
+      - name: Build with Maven
+        run: mvn -fae -V -B -s .github/mvn-settings.xml clean verify
+      - name: Zip Artifacts
+        if: failure()
+        run: |
+          zip -R artifacts-latest-linux-jvm${{ matrix.java }}.zip '*-reports/*'
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: ci-artifacts
+          path: artifacts-latest-linux-jvm${{ matrix.java }}.zip
+  linux-build-native-latest:
+    name: Linux - Native build - Latest Version
     runs-on: ubuntu-latest
-    timeout-minutes: 180
-    needs: linux-validate-format
-    env:
-      MODULES_ARG: ${{ needs.detect-test-suite-modules.outputs.MODULES_ARG }}
+    needs: build-dependencies
     strategy:
       matrix:
         java: [ 17 ]
+        image: [ "ubi-quarkus-mandrel-builder-image:22.3-java17" ]
+        profiles: [ "JDK17"]
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
       - name: Reclaim Disk Space
         run: .github/ci-prerequisites.sh
       - name: Install JDK ${{ matrix.java }}
@@ -92,21 +99,24 @@ jobs:
           distribution: temurin
           java-version: ${{ matrix.java }}
       - name: Download Maven Repo
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: maven-repo
           path: .
       - name: Extract Maven Repo
         shell: bash
         run: tar -xzf maven-repo.tgz -C ~
-      - name: Build with Maven
-        run: mvn -fae -V -B -s .github/mvn-settings.xml clean verify
+      - name: Test in Native mode
+        run: |
+          mvn -fae -V -B -s .github/mvn-settings.xml -P ${{ matrix.profiles }} -fae clean verify -Dnative \
+          -Dquarkus.native.builder-image=quay.io/quarkus/${{ matrix.image }}
       - name: Zip Artifacts
         if: failure()
         run: |
-          zip -R artifacts-latest-linux-jvm${{ matrix.java }}.zip '*-reports/*'
-      - uses: actions/upload-artifact@v1
+          zip -R artifacts-native${{ matrix.java }}.zip '*-reports/*'
+      - name: Archive artifacts
         if: failure()
+        uses: actions/upload-artifact@v3
         with:
           name: ci-artifacts
-          path: artifacts-latest-linux-jvm${{ matrix.java }}.zip
+          path: artifacts-native${{ matrix.java }}.zip
