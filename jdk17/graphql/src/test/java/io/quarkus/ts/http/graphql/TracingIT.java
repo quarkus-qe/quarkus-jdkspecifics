@@ -2,10 +2,11 @@ package io.quarkus.ts.http.graphql;
 
 import static io.quarkus.ts.http.graphql.Utils.createQuery;
 import static io.quarkus.ts.http.graphql.Utils.sendQuery;
-import static io.restassured.RestAssured.when;
+import static io.restassured.RestAssured.given;
 import static org.awaitility.Awaitility.await;
 
 import java.net.HttpURLConnection;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Assertions;
@@ -21,15 +22,12 @@ import io.restassured.response.Response;
 
 @QuarkusScenario
 public class TracingIT {
-    private static final String SERVICE_NAME = "graphql-service";
-
     @JaegerContainer
     static JaegerService jaeger = new JaegerService();
 
     @QuarkusApplication
     static RestService app = new RestService()
-            .withProperty("quarkus.jaeger.service-name", SERVICE_NAME)
-            .withProperty("quarkus.jaeger.endpoint", jaeger::getRestUrl);
+            .withProperty("quarkus.otel.exporter.otlp.endpoint", jaeger::getCollectorUrl);
 
     @Test
     void verifyTracesInJaegerTest() {
@@ -39,18 +37,24 @@ public class TracingIT {
         Assertions.assertEquals("Plato", classic.jsonPath().getString("data.friend.name"));
         Assertions.assertEquals("Plato", reactive.jsonPath().getString("data.friend_r.name"));
 
-        // the tracer inside the application doesn't send traces to the Jaeger server immediately,
-        // they are batched, so we need to wait a bit
-        await().atMost(60, TimeUnit.SECONDS).untilAsserted(() -> {
-            Response response = when()
-                    .get(jaeger.getTraceUrl() + "?service=" + SERVICE_NAME);
-            Assertions.assertEquals(HttpURLConnection.HTTP_OK, response.statusCode());
-            JsonPath jsonPath = response.body().jsonPath();
-            Assertions.assertEquals(2, jsonPath.getList("data").size());
-            Assertions.assertEquals(2, jsonPath.getList("data[0].spans").size());
-            Assertions.assertEquals(2, jsonPath.getList("data[1].spans").size());
-            Assertions.assertTrue(jsonPath.getList("data[0].spans.operationName").contains("GraphQL:Query.friend"));
-            Assertions.assertTrue(jsonPath.getList("data[1].spans.operationName").contains("GraphQL:Query.friend_r"));
+        await().atMost(60, TimeUnit.SECONDS).pollInterval(Duration.ofSeconds(10)).untilAsserted(() -> {
+            String operation = "POST /graphql";
+            Response traces = given().when()
+                    .queryParam("operation", operation)
+                    .queryParam("lookback", "1h")
+                    .queryParam("limit", 10)
+                    .queryParam("service", "graphql")
+                    .get(jaeger.getTraceUrl());
+            Assertions.assertEquals(HttpURLConnection.HTTP_OK, traces.statusCode());
+            JsonPath body = traces.body().jsonPath();
+            Assertions.assertEquals(2, body.getList("data").size());
+            Assertions.assertEquals(2, body.getList("data[0].spans").size());
+            Assertions.assertEquals(2, body.getList("data[1].spans").size());
+            // Span with "operationName": "GraphQL" is child of the span with "operationName": "POST /graphql"
+            Assertions.assertTrue(body.getString("data[0].spans[0].operationName").equals(operation) ||
+                    body.getString("data[0].spans[0].operationName").equals("GraphQL"));
+            Assertions.assertTrue(body.getString("data[1].spans[0].operationName").equals(operation) ||
+                    body.getString("data[1].spans[0].operationName").equals("GraphQL"));
         });
     }
 }
