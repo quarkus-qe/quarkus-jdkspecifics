@@ -25,7 +25,7 @@ These are the selected ones:
 * JDK17 [2021-09-14] [features list](https://openjdk.java.net/projects/jdk/17/)
 
 ## Scenarios
-### Jaxrs-panache
+### Jakarta-rest-panache
 * [Records](https://openjdk.java.net/jeps/395)
 * [Text Blocks](https://openjdk.java.net/jeps/378)
 * [Sealed Interfaces](https://openjdk.java.net/jeps/409)
