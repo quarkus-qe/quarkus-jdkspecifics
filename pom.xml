@@ -268,7 +268,7 @@
                 <jdk>17</jdk>
             </activation>
             <modules>
-                <module>jdk17/jaxrs-panache</module>
+                <module>jdk17/jakarta-rest-panache</module>
                 <module>jdk17/graphql</module>
             </modules>
         </profile>

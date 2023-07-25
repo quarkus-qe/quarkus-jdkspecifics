@@ -7,9 +7,9 @@
         <version>1.0.0-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
-    <artifactId>jaxrs-panache</artifactId>
+    <artifactId>jakarta-rest-panache</artifactId>
     <packaging>jar</packaging>
-    <name>Quarkus JDK17 TS: jaxrs-panache</name>
+    <name>Quarkus JDK17 TS: jakarta-rest-panache</name>
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>
