@@ -24,7 +24,7 @@ import io.vertx.core.json.JsonObject;
 @QuarkusScenario
 public class FruitsResourceIT {
 
-    @Container(image = "${postgresql.13.image}", port = 5432, expectedLog = "listening on IPv4 address")
+    @Container(image = "${postgresql.latest.image}", port = 5432, expectedLog = "listening on IPv4 address")
     static PostgresqlService postgres = new PostgresqlService();
 
     @QuarkusApplication

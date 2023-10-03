@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.quarkus.ts.jdk17</groupId>
+    <groupId>io.quarkus.ts.jdk.specific</groupId>
     <artifactId>parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -163,7 +163,7 @@
                             </excludes>
                             <systemPropertyVariables>
                                 <profile.id>${profile.id}</profile.id>
-                                <postgresql.13.image>docker.io/library/postgres:13.6</postgresql.13.image>
+                                <postgresql.latest.image>docker.io/library/postgres:15.4</postgresql.latest.image>
                             </systemPropertyVariables>
                         </configuration>
                     </execution>
@@ -271,6 +271,18 @@
                 <module>jdk17/jakarta-rest-panache</module>
                 <module>jdk17/graphql</module>
             </modules>
+        </profile>
+        <profile>
+            <id>JDK21</id>
+            <activation>
+                <jdk>21</jdk>
+            </activation>
+            <modules>
+                <module>jdk21/resteasy-reactive-jackson</module>
+            </modules>
+            <properties>
+                <maven.compiler.release>21</maven.compiler.release>
+            </properties>
         </profile>
         <profile>
             <id>native</id>

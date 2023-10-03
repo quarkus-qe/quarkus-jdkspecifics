@@ -49,7 +49,7 @@ jobs:
     needs: build-dependencies
     strategy:
       matrix:
-        java: [ 17 ]
+        java: [ 17, 21-ea ]
     steps:
       - uses: actions/checkout@v3
       - name: Reclaim Disk Space
@@ -73,7 +73,7 @@ jobs:
         run: |
           mvn -V -B -s .github/mvn-settings.xml verify -Dvalidate-format -DskipTests -DskipITs
       - name: Build with Maven
-        run: mvn -fae -V -B -s .github/mvn-settings.xml clean verify
+        run: mvn -fae -V -B -s .github/mvn-settings.xml clean verify -Dnet.bytebuddy.experimental=true
       - name: Zip Artifacts
         if: failure()
         run: |

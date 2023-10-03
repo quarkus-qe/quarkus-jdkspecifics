@@ -53,3 +53,9 @@ Interesting preview:
 
 ### GraphQL
 * [Records](https://openjdk.java.net/jeps/395)
+
+### resteasy-reactive-jackson
+* [Record Patterns](https://openjdk.java.net/jeps/440)
+* [Pattern Matching for switch](https://openjdk.java.net/jeps/441)
+* [Sequenced Collections](https://openjdk.java.net/jeps/431)
+* [Code Snippets in Java API Documentation](https://openjdk.java.net/jeps/413)
