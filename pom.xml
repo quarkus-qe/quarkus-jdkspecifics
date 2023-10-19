@@ -36,6 +36,7 @@
         <exclude.operator.openshift.tests>**/Operator*OpenShift*IT.java</exclude.operator.openshift.tests>
         <exclude.quarkus.cli.tests>**/QuarkusCli*IT.java</exclude.quarkus.cli.tests>
         <exclude.quarkus.devmode.tests>no</exclude.quarkus.devmode.tests>
+        <quarkus.native.builder-image>quay.io/quarkus/ubi-quarkus-mandrel-builder-image:23.0-java17</quarkus.native.builder-image>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -232,6 +233,8 @@
                     <failsOnError>true</failsOnError>
                     <linkXRef>true</linkXRef>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <!-- exclude preview as latest checkstyle 3.3.0 not support unnamed patterns abd variables -->
+                    <excludes>**/preview/**</excludes>
                 </configuration>
                 <executions>
                     <execution>
@@ -279,9 +282,11 @@
             </activation>
             <modules>
                 <module>jdk21/resteasy-reactive-jackson</module>
+                <module>jdk21/qute</module>
             </modules>
             <properties>
                 <maven.compiler.release>21</maven.compiler.release>
+                <quarkus.native.builder-image>quay.io/quarkus/ubi-quarkus-mandrel-builder-image:23.1-java21</quarkus.native.builder-image>
             </properties>
         </profile>
         <profile>
@@ -316,8 +321,8 @@
                 <quarkus.package.type>native</quarkus.package.type>
                 <quarkus.native.container-build>true</quarkus.native.container-build>
                 <quarkus.native.native-image-xmx>4g</quarkus.native.native-image-xmx>
-                <quarkus.native.builder-image>quay.io/quarkus/ubi-quarkus-mandrel-builder-image:23.0-java17</quarkus.native.builder-image>
                 <exclude.quarkus.devmode.tests>**/*DevMode*IT.java</exclude.quarkus.devmode.tests>
+                <quarkus.native.additional-build-args>-J--enable-preview</quarkus.native.additional-build-args>
             </properties>
         </profile>
         <profile>

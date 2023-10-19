@@ -59,3 +59,9 @@ Interesting preview:
 * [Pattern Matching for switch](https://openjdk.java.net/jeps/441)
 * [Sequenced Collections](https://openjdk.java.net/jeps/431)
 * [Code Snippets in Java API Documentation](https://openjdk.java.net/jeps/413)
+
+### Qute
+* [JEP 430: String Templates (Preview)](https://openjdk.java.net/jeps/430)
+* [JEP 445: Unnamed Classes and Instance Main Methods (Preview)](https://openjdk.java.net/jeps/445)
+* [Pattern Matching for switch](https://openjdk.java.net/jeps/441)
+
