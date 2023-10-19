@@ -9,7 +9,7 @@
     </parent>
     <artifactId>resteasy-reactive-jackson</artifactId>
     <packaging>jar</packaging>
-    <name>Quarkus JDK21 TS: test</name>
+    <name>Quarkus JDK21 TS: resteasy-reactive-jackson</name>
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>
