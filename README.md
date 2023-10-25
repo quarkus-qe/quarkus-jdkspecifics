@@ -1,6 +1,6 @@
 # Quarkus Jdk specifics Test Suite
 
-[![Daily Build](https://github.com/quarkus-qe/quarkus-jdkspecifics/actions/workflows/daily.yaml/badge.svg)](https://github.com/quarkus-qe/quarkus-jdkspecifics/actions/workflows/daily.yaml)
+[![Daily Build](https://github.com/quarkus-qe/quarkus-jdkspecifics/actions/workflows/ci.yml/badge.svg)](https://github.com/quarkus-qe/quarkus-jdkspecifics/actions/workflows/daily.yaml)
 
 The goal of this TS is to cover the most interesting [JEPs](http://openjdk.java.net/jeps/1)  implemented since JDK 11
 
@@ -59,3 +59,9 @@ Interesting preview:
 * [Pattern Matching for switch](https://openjdk.java.net/jeps/441)
 * [Sequenced Collections](https://openjdk.java.net/jeps/431)
 * [Code Snippets in Java API Documentation](https://openjdk.java.net/jeps/413)
+
+### Qute
+* [JEP 430: String Templates (Preview)](https://openjdk.java.net/jeps/430)
+* [JEP 445: Unnamed Classes and Instance Main Methods (Preview)](https://openjdk.java.net/jeps/445)
+* [Pattern Matching for switch](https://openjdk.java.net/jeps/441)
+
