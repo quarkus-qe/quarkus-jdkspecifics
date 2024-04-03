@@ -99,10 +99,10 @@ jobs:
         run: |
           if [[ ${{ matrix.java }} == 17 ]]; then
             echo PROFILE=JDK17 >> $GITHUB_OUTPUT
-            echo MANDREL_IMAGE=ubi-quarkus-mandrel-builder-image:23.0-java17 >> $GITHUB_OUTPUT
+            echo MANDREL_IMAGE=ubi-quarkus-mandrel-builder-image:jdk-21 >> $GITHUB_OUTPUT
           else
             echo PROFILE=JDK21 >> $GITHUB_OUTPUT
-            echo MANDREL_IMAGE=ubi-quarkus-mandrel-builder-image:23.1-java21 >> $GITHUB_OUTPUT
+            echo MANDREL_IMAGE=ubi-quarkus-mandrel-builder-image:jdk-21 >> $GITHUB_OUTPUT
           fi
       - name: Install JDK ${{ matrix.java }}
         uses: actions/setup-java@v3
