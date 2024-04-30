@@ -16,9 +16,9 @@ public class SequencedCollectionShowcaseResource {
     EntityManager entityManager;
 
     @GET
-    public List<SequencedCollectionShowcaseResource> get() {
+    public List<SequencedCollectionShowcase> get() {
         return entityManager
-                .createNamedQuery("SequencedCollectionShowcase.findAll", SequencedCollectionShowcaseResource.class)
+                .createNamedQuery("SequencedCollectionShowcase.findAll", SequencedCollectionShowcase.class)
                 .getResultList();
     }
 
