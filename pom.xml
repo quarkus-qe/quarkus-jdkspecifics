@@ -296,7 +296,7 @@
                                 <configuration>
                                     <systemPropertyVariables>
                                         <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
-                                        <quarkus.package.type>${quarkus.package.type}</quarkus.package.type>
+                                        <quarkus.native.enabled>true</quarkus.native.enabled>
                                         <quarkus.native.container-build>${quarkus.native.container-build}</quarkus.native.container-build>
                                         <quarkus.native.native-image-xmx>${quarkus.native.native-image-xmx}</quarkus.native.native-image-xmx>
                                         <quarkus.native.builder-image>${quarkus.native.builder-image}</quarkus.native.builder-image>
@@ -309,7 +309,6 @@
             </build>
             <properties>
                 <profile.id>native</profile.id>
-                <quarkus.package.type>native</quarkus.package.type>
                 <quarkus.native.container-build>true</quarkus.native.container-build>
                 <quarkus.native.native-image-xmx>4g</quarkus.native.native-image-xmx>
                 <exclude.quarkus.devmode.tests>**/*DevMode*IT.java</exclude.quarkus.devmode.tests>
