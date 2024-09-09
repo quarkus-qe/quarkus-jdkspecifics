@@ -32,7 +32,7 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Build Quarkus main
         run: |
-          git clone https://github.com/quarkusio/quarkus.git && cd quarkus && ./mvnw -B -s .github/mvn-settings.xml clean install -Dquickly -Prelocations
+          git clone https://github.com/quarkusio/quarkus.git && cd quarkus && ./mvnw -B --no-transfer-progress -s .github/mvn-settings.xml clean install -Dquickly -Prelocations
       - name: Tar Maven Repo
         shell: bash
         run: tar -I 'pigz -9' -cf maven-repo.tgz -C ~ .m2/repository
@@ -71,9 +71,9 @@ jobs:
         run: tar -xzf maven-repo.tgz -C ~
       - name: Validate format
         run: |
-          mvn -V -B -s .github/mvn-settings.xml verify -Dvalidate-format -DskipTests -DskipITs
+          mvn -V -B --no-transfer-progress -s .github/mvn-settings.xml verify -Dvalidate-format -DskipTests -DskipITs
       - name: Build with Maven
-        run: mvn -fae -V -B -s .github/mvn-settings.xml clean verify
+        run: mvn -fae -V -B --no-transfer-progress -s .github/mvn-settings.xml clean verify
       - name: Zip Artifacts
         if: failure()
         run: |
@@ -119,7 +119,7 @@ jobs:
         run: tar -xzf maven-repo.tgz -C ~
       - name: Test in Native mode
         run: |
-          mvn -fae -V -B -s .github/mvn-settings.xml -P ${{ steps.set-mandrel-image.outputs.PROFILE }} clean verify -Dnative \
+          mvn -fae -V -B --no-transfer-progress -s .github/mvn-settings.xml -P ${{ steps.set-mandrel-image.outputs.PROFILE }} clean verify -Dnative \
           -Dquarkus.native.builder-image=quay.io/quarkus/${{ steps.set-mandrel-image.outputs.MANDREL_IMAGE }}
       - name: Zip Artifacts
         if: failure()
