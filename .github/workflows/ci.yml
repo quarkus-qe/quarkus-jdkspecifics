@@ -37,7 +37,7 @@ jobs:
         shell: bash
         run: tar -I 'pigz -9' -cf maven-repo.tgz -C ~ .m2/repository
       - name: Persist Maven Repo
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: maven-repo
           path: maven-repo.tgz
@@ -62,7 +62,7 @@ jobs:
           check-latest: true
           cache: 'maven'
       - name: Download Maven Repo
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: maven-repo
           path: .
@@ -78,7 +78,7 @@ jobs:
         if: failure()
         run: |
           zip -R artifacts-latest-linux-jvm${{ matrix.java }}.zip '*-reports/*'
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: ci-artifacts
@@ -110,7 +110,7 @@ jobs:
           distribution: temurin
           java-version: ${{ matrix.java }}
       - name: Download Maven Repo
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: maven-repo
           path: .
@@ -127,7 +127,7 @@ jobs:
           zip -R artifacts-native${{ matrix.java }}.zip '*-reports/*'
       - name: Archive artifacts
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ci-artifacts
           path: artifacts-native${{ matrix.java }}.zip
