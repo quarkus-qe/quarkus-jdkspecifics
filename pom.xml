@@ -103,6 +103,7 @@
             <plugin>
                 <groupId>io.quarkus.qe</groupId>
                 <artifactId>quarkus-test-preparer</artifactId>
+                <version>${quarkus.qe.framework.version}</version>
                 <executions>
                     <execution>
                         <goals>
