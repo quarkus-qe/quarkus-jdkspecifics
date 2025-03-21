@@ -30,14 +30,15 @@ public class CharacterResource {
      * <p>
      * Prior to JDK 21 it would be
      * {@snippet :
-     *     Character entity = entityManager.find(Character.class, id);
-     *     if(entity == null) {
-     *          // do something
-     *     }
-     *     switch (entity) {
-     *          // switch cases
-     *     }
+     * Character entity = entityManager.find(Character.class, id);
+     * if (entity == null) {
+     *     // do something
      * }
+     * switch (entity) {
+     *     // switch cases
+     * }
+     * }
+     *
      * @param id Id of hero
      * @return Error or type of character
      */
@@ -77,7 +78,8 @@ public class CharacterResource {
         }
         switch (rank) {
             case Hero.Rank r when r == Hero.Rank.S -> {
-                return Response.ok("S rank is highest rank which can hero achieve. Only few have achieve this.").status(200).build();
+                return Response.ok("S rank is highest rank which can hero achieve. Only few have achieve this.").status(200)
+                        .build();
             }
             case Hero.Rank r when r == Hero.Rank.A -> {
                 return Response.ok("A rank is for experience heroes which had done good work.").status(200).build();
