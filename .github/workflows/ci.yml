@@ -13,8 +13,8 @@ jobs:
       matrix:
         java: [ 17 ]
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/cache@v3
+      - uses: actions/checkout@v7
+      - uses: actions/cache@v6
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -26,7 +26,7 @@ jobs:
         run: |
           sudo apt update && sudo apt install pigz
       - name: Install JDK ${{ matrix.java }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: ${{ matrix.java }}
@@ -37,7 +37,7 @@ jobs:
         shell: bash
         run: tar -I 'pigz -9' -cf maven-repo.tgz -C ~ .m2/repository
       - name: Persist Maven Repo
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: maven-repo
           path: maven-repo.tgz
@@ -51,18 +51,18 @@ jobs:
       matrix:
         java: [ 17, 21 ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - name: Reclaim Disk Space
         run: .github/ci-prerequisites.sh
       - name: Install JDK ${{ matrix.java }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: ${{ matrix.java }}
           check-latest: true
           cache: 'maven'
       - name: Download Maven Repo
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: maven-repo
           path: .
@@ -78,7 +78,7 @@ jobs:
         if: failure()
         run: |
           zip -R artifacts-latest-linux-jvm${{ matrix.java }}.zip '*-reports/*'
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: ci-artifacts
@@ -91,7 +91,7 @@ jobs:
       matrix:
         java: [ 17 ]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - name: Reclaim Disk Space
         run: .github/ci-prerequisites.sh
       - name: Set Profile and Mandrel Image
@@ -105,12 +105,12 @@ jobs:
             echo MANDREL_IMAGE=ubi-quarkus-mandrel-builder-image:jdk-25 >> $GITHUB_OUTPUT
           fi
       - name: Install JDK ${{ matrix.java }}
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: ${{ matrix.java }}
       - name: Download Maven Repo
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: maven-repo
           path: .
@@ -127,7 +127,7 @@ jobs:
           zip -R artifacts-native${{ matrix.java }}.zip '*-reports/*'
       - name: Archive artifacts
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ci-artifacts
           path: artifacts-native${{ matrix.java }}.zip
