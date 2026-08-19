@@ -178,7 +178,7 @@
                             </excludes>
                             <systemPropertyVariables>
                                 <profile.id>${profile.id}</profile.id>
-                                <postgresql.latest.image>docker.io/library/postgres:15.4</postgresql.latest.image>
+                                <postgresql.latest.image>docker.io/library/postgres:16</postgresql.latest.image>
                             </systemPropertyVariables>
                         </configuration>
                     </execution>
