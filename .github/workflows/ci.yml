@@ -32,7 +32,7 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Build Quarkus main
         run: |
-          git clone -b 3.39 https://github.com/quarkusio/quarkus.git && cd quarkus && ./mvnw -B --no-transfer-progress -s .github/mvn-settings.xml clean install -Dquickly -Prelocations -Dscalpel.enabled=false
+          git clone https://github.com/quarkusio/quarkus.git && cd quarkus && ./mvnw -B --no-transfer-progress -s .github/mvn-settings.xml clean install -Dquickly -Prelocations -Dscalpel.enabled=false
       - name: Tar Maven Repo
         shell: bash
         run: tar -I 'pigz -9' -cf maven-repo.tgz -C ~ .m2/repository
