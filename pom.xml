@@ -185,7 +185,6 @@
                 </executions>
                 <configuration>
                     <trimStackTrace>false</trimStackTrace>
-                    <argLine>--enable-preview</argLine>
                 </configuration>
             </plugin>
             <plugin>
@@ -286,7 +285,6 @@
             </activation>
             <modules>
                 <module>jdk21/resteasy-reactive-jackson</module>
-                <module>jdk21/qute</module>
             </modules>
             <properties>
                 <maven.compiler.release>21</maven.compiler.release>
