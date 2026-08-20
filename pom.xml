@@ -36,7 +36,7 @@
         <exclude.operator.openshift.tests>**/Operator*OpenShift*IT.java</exclude.operator.openshift.tests>
         <exclude.quarkus.cli.tests>**/QuarkusCli*IT.java</exclude.quarkus.cli.tests>
         <exclude.quarkus.devmode.tests>no</exclude.quarkus.devmode.tests>
-        <quarkus.native.builder-image>quay.io/quarkus/ubi-quarkus-mandrel-builder-image:23.1-java21</quarkus.native.builder-image>
+        <quarkus.native.builder-image>quay.io/quarkus/ubi9-quarkus-mandrel-builder-image:jdk-25</quarkus.native.builder-image>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -288,7 +288,6 @@
             </modules>
             <properties>
                 <maven.compiler.release>21</maven.compiler.release>
-                <quarkus.native.builder-image>quay.io/quarkus/ubi-quarkus-mandrel-builder-image:23.1-java21</quarkus.native.builder-image>
             </properties>
         </profile>
         <profile>
