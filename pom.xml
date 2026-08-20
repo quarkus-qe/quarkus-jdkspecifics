@@ -118,10 +118,6 @@
                 <version>${quarkus-plugin.version}</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <compilerArgs>
-                        <arg>--enable-preview</arg>
-                    </compilerArgs>
-                    <jvmArgs>--enable-preview</jvmArgs>
                     <source>${maven.compiler.release}</source>
                     <target>${maven.compiler.release}</target>
                 </configuration>
@@ -142,7 +138,6 @@
                 <version>${compiler-plugin.version}</version>
                 <configuration>
                     <release>${maven.compiler.release}</release>
-                    <compilerArgs>--enable-preview</compilerArgs>
                     <source>${maven.compiler.release}</source>
                     <target>${maven.compiler.release}</target>
                 </configuration>
@@ -150,7 +145,6 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <argLine>--enable-preview</argLine>
                     <systemPropertyVariables>
                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                     </systemPropertyVariables>
@@ -272,7 +266,7 @@
         <profile>
             <id>JDK17</id>
             <activation>
-                <jdk>17</jdk>
+                <jdk>[17,)</jdk>
             </activation>
             <modules>
                 <module>jdk17/jakarta-rest-panache</module>
@@ -281,7 +275,7 @@
         <profile>
             <id>JDK21</id>
             <activation>
-                <jdk>21</jdk>
+                <jdk>[21,)</jdk>
             </activation>
             <modules>
                 <module>jdk21/resteasy-reactive-jackson</module>
@@ -322,7 +316,6 @@
                 <quarkus.native.container-build>true</quarkus.native.container-build>
                 <quarkus.native.native-image-xmx>4g</quarkus.native.native-image-xmx>
                 <exclude.quarkus.devmode.tests>**/*DevMode*IT.java</exclude.quarkus.devmode.tests>
-                <quarkus.native.additional-build-args>-J--enable-preview</quarkus.native.additional-build-args>
             </properties>
         </profile>
         <profile>
