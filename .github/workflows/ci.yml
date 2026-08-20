@@ -94,16 +94,6 @@ jobs:
       - uses: actions/checkout@v7
       - name: Reclaim Disk Space
         run: .github/ci-prerequisites.sh
-      - name: Set Profile and Mandrel Image
-        id: set-mandrel-image
-        run: |
-          if [[ ${{ matrix.java }} == 17 ]]; then
-            echo PROFILE=JDK17 >> $GITHUB_OUTPUT
-            echo MANDREL_IMAGE=ubi-quarkus-mandrel-builder-image:jdk-25 >> $GITHUB_OUTPUT
-          else
-            echo PROFILE=JDK21 >> $GITHUB_OUTPUT
-            echo MANDREL_IMAGE=ubi-quarkus-mandrel-builder-image:jdk-25 >> $GITHUB_OUTPUT
-          fi
       - name: Install JDK ${{ matrix.java }}
         uses: actions/setup-java@v5
         with:
@@ -119,8 +109,7 @@ jobs:
         run: tar -xzf maven-repo.tgz -C ~
       - name: Test in Native mode
         run: |
-          mvn -fae -V -B --no-transfer-progress -s .github/mvn-settings.xml -P ${{ steps.set-mandrel-image.outputs.PROFILE }} clean verify -Dnative \
-          -Dquarkus.native.builder-image=quay.io/quarkus/${{ steps.set-mandrel-image.outputs.MANDREL_IMAGE }}
+          mvn -fae -V -B --no-transfer-progress -s .github/mvn-settings.xml -P ${{ steps.set-mandrel-image.outputs.PROFILE }} clean verify -Dnative
       - name: Zip Artifacts
         if: failure()
         run: |
