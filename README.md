@@ -1,10 +1,14 @@
-# Quarkus Jdk specifics Test Suite
+# This repository is archived
+As of 2026-11-13, this repository is archived.
 
-## As of 2026-11-13, this repository is archived.
-Test coverage was analyzed and compared with https://github.com/quarkusio/quarkus/tree/main/integration-tests and  https://github.com/quarkus-qe/quarkus-test-suite.
+Test coverage was analyzed and compared with:
+ * https://github.com/quarkusio/quarkus/tree/main/integration-tests
+ * https://github.com/quarkus-qe/quarkus-test-suite
+
 Relevant parts were moved to https://github.com/quarkus-qe/quarkus-test-suite.
 
 ---
+# Quarkus Jdk specifics Test Suite
 
 The goal of this TS is to cover the most interesting [JEPs](http://openjdk.java.net/jeps/1)  implemented since JDK 11
 
