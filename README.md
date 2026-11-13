@@ -1,6 +1,10 @@
 # Quarkus Jdk specifics Test Suite
 
-[![Daily Build](https://github.com/quarkus-qe/quarkus-jdkspecifics/actions/workflows/ci.yml/badge.svg)](https://github.com/quarkus-qe/quarkus-jdkspecifics/actions/workflows/daily.yaml)
+## As of 2026-11-13, this repository is archived.
+Test coverage was analyzed and compared with https://github.com/quarkusio/quarkus/tree/main/integration-tests and  https://github.com/quarkus-qe/quarkus-test-suite.
+Relevant parts were moved to https://github.com/quarkus-qe/quarkus-test-suite.
+
+---
 
 The goal of this TS is to cover the most interesting [JEPs](http://openjdk.java.net/jeps/1)  implemented since JDK 11
 
